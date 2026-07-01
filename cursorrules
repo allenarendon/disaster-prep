@@ -1,0 +1,76 @@
+# Cursor Rules — PH Disaster Preparedness & Evacuation Guide
+
+## Project Context
+
+AI-powered web app giving Filipinos location-specific, plain-language disaster guidance and evacuation center status. This is a life-safety-adjacent product: prioritize correctness of edge cases and fallback states over cleverness or brevity. Full spec lives in `SPEC_AND_ARCHITECTURE.md` — consult it for anything touching guidance generation, evacuation center status, offline behavior, or community reports.
+
+## Stack
+
+- Next.js + React + TypeScript (strict mode) — no `any` without an inline justification comment
+- Tailwind CSS (core utility classes only, no compiler plugins)
+- PostgreSQL via Supabase
+- Anthropic Claude API for guidance text generation — **server-side only, never from the client**
+- Zod for all API boundary validation
+- MapLibre GL for maps
+- Service Worker + IndexedDB for offline caching
+
+## Always Do
+
+- Validate all external input (API bodies, ingested bulletins, community reports) with a Zod schema at the boundary before it touches business logic.
+- Default missing evacuation-center status to `UNKNOWN`, never `OPEN`.
+- Treat LGU-admin-set status as authoritative over community reports; require ≥3 corroborating community reports within 6 hours before community input can change a displayed status.
+- Label any AI-generated content that falls back to static content with `isFallback: true` and make that visually distinguishable in the UI.
+- Exclude expired bulletins (`validUntil` in the past) from "active" guidance — show a "no active advisory" state instead of reusing stale data.
+- Design every live-data-dependent feature with an explicit offline/error state — no blank screens, no infinite spinners.
+- Store all timestamps as UTC ISO 8601 strings; convert to local time only when rendering.
+- Anonymize community report submitters at intake — never persist raw device ID, IP, or precise location history without explicit separate consent.
+- Keep the client bundle lean — check before adding a dependency whether it meaningfully grows bundle size (target: app shell under 300KB gzipped).
+
+## Never Do
+
+- Never call the Anthropic API (or any AI provider) directly from client-side code.
+- Never let a single unverified community report change an evacuation center's displayed status.
+- Never merge two active, conflicting hazard bulletins into one generated response — surface both, ranked by severity.
+- Never fabricate or infer hazard-specific claims not grounded in an actual ingested bulletin.
+- Never add user accounts, persistent profiles, precise-location persistence, native mobile apps, SOS/emergency-dispatch integration, insurance features, a full LGU admin dashboard, or ads/monetization UI — these are explicitly out of scope for v1 per the PRD. Flag it instead of silently building it if a request seems to head there.
+- Never use class components — functional components + hooks only.
+- Never use moment.js or other heavy date libraries — use native `Date`/`Intl` or a lightweight alternative.
+- Never show raw error codes, stack traces, or technical jargon in user-facing error states — always a plain-language message.
+
+## Folder Structure
+
+Feature-based, not type-based:
+
+```
+/features/guidance
+/features/evac-centers
+/features/reports
+/features/offline
+/features/shared      # only truly cross-cutting UI primitives
+```
+
+Do not create generic `/components` or `/utils` dumping grounds — colocate logic with the feature that owns it.
+
+## Testing Priorities
+
+Prioritize edge-case and fallback-path coverage over happy-path-only tests:
+- Stale/expired bulletins
+- AI generation timeout/failure → static fallback
+- Missing or conflicting evacuation center status data
+- Offline transition mid-session, and first-time offline with no cached bundle
+- Rate-limiting and malformed community reports
+- Unsupported language requests falling back to English
+
+## Performance Targets
+
+- Guidance view meaningful render within 3s on simulated 3G
+- Guidance generation completes or falls back within 5s
+- Offline bundle capped at 2MB
+- App shell under 300KB gzipped
+
+## Style
+
+- TypeScript strict mode, functional components, hooks
+- Zod-validated API boundaries
+- Feature-based file organization
+- UTC-everywhere for stored/passed dates

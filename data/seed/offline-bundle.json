@@ -1,0 +1,111 @@
+{
+  "bundleVersion": "1.0.0",
+  "generatedAt": "2026-07-01T00:00:00.000Z",
+  "validForRegion": "NCR",
+  "staticChecklists": {
+    "en": [
+      "Prepare a go-bag with water, food, medicines, and important documents",
+      "Identify your nearest evacuation center before a hazard arrives",
+      "Keep a battery-powered radio or phone charged for official updates",
+      "Know two routes to higher ground from your home",
+      "Store emergency contacts including barangay and local DRRM office"
+    ],
+    "tl": [
+      "Maghanda ng go-bag na may tubig, pagkain, gamot, at mahahalagang dokumento",
+      "Alamin ang pinakamalapit na evacuation center bago dumating ang sakuna",
+      "Panatilihing naka-charge ang radyo o telepono para sa opisyal na balita",
+      "Alamin ang dalawang ruta papunta sa mataas na lugar mula sa inyong bahay",
+      "Itala ang mga emergency contact kasama ang barangay at DRRM office"
+    ],
+    "ceb": [
+      "Andama ang go-bag nga may tubig, pagkaon, tambal, ug importante nga dokumento",
+      "Ilha ang pinakaduol nga evacuation center sa dili pa moabot ang katalagman",
+      "Ipabilin nga naka-charge ang radyo o telepono para sa opisyal nga balita",
+      "Ilha ang duha ka ruta padulong sa habog nga lugar gikan sa inyong balay",
+      "Ilista ang mga emergency contact apil ang barangay ug DRRM office"
+    ]
+  },
+  "hazardSpecificGuidance": {
+    "TYPHOON": {
+      "en": [
+        "Stay indoors and away from windows during strong winds",
+        "Secure loose objects that could become projectiles",
+        "Monitor PAGASA bulletins for signal changes",
+        "Evacuate if ordered by local authorities or if in a flood/landslide zone"
+      ],
+      "tl": [
+        "Manatili sa loob ng bahay at lumayo sa bintana habang malakas ang hangin",
+        "I-secure ang mga bagay na maaaring lumipad",
+        "Subaybayan ang mga bulletin ng PAGASA para sa pagbabago ng signal",
+        "Lumikas kung inutos ng lokal na awtoridad o kung nasa flood/landslide zone"
+      ],
+      "ceb": [
+        "Pabilin sa sulod sa balay ug layo sa bintana samtang kusog ang hangin",
+        "I-secure ang mga butang nga mahimong molupad",
+        "Subaya ang mga bulletin sa PAGASA alang sa pagbag-o sa signal",
+        "Evacuate kung gisugo sa lokal nga awtoridad o kung naa sa flood/landslide zone"
+      ]
+    },
+    "FLOOD": {
+      "en": [
+        "Move to higher ground immediately if water is rising",
+        "Do not walk or drive through floodwaters",
+        "Turn off electricity at the main breaker if water enters your home",
+        "Bring essential items if evacuation is necessary"
+      ],
+      "tl": [
+        "Lumipat agad sa mataas na lugar kung tumataas ang tubig",
+        "Huwag maglakad o magmaneho sa baha",
+        "Patayin ang kuryente sa main breaker kung pumasok ang tubig sa bahay",
+        "Dalhin ang mahahalagang gamit kung kailangang lumikas"
+      ],
+      "ceb": [
+        "Balhin dayon sa habog nga lugar kung mosaka ang tubig",
+        "Ayaw paglakaw o pagmaneho sa baha",
+        "Patya ang kuryente sa main breaker kung mosulod ang tubig sa balay",
+        "Dad-a ang importante nga butang kung kinahanglan mo evacuate"
+      ]
+    },
+    "STORM_SURGE": {
+      "en": [
+        "Evacuate coastal and low-lying areas immediately when advised",
+        "Do not wait to see rising water before leaving",
+        "Go to designated evacuation centers on higher ground",
+        "Avoid returning until authorities declare the area safe"
+      ],
+      "tl": [
+        "Lumikas agad sa coastal at mababang lugar kapag pinayuhan",
+        "Huwag maghintay na makita ang tumataas na tubig bago umalis",
+        "Pumunta sa itinalagang evacuation centers sa mataas na lugar",
+        "Iwasan ang pagbalik hanggang ideklara ng awtoridad na ligtas na"
+      ],
+      "ceb": [
+        "Evacuate dayon sa coastal ug ubos nga lugar kung gitambagan",
+        "Ayaw paghulat nga makita ang mosaka nga tubig sa dili pa mobiya",
+        "Adto sa gitudlo nga evacuation centers sa habog nga lugar",
+        "Likayi ang pagbalik hangtod ideklara sa awtoridad nga luwas na"
+      ]
+    },
+    "LANDSLIDE": {
+      "en": [
+        "Evacuate slopes and areas below steep terrain when heavy rain persists",
+        "Watch for cracks in the ground, tilting trees, or unusual sounds",
+        "Move to stable ground away from cliffs and embankments",
+        "Follow PHIVOLCS and local DRRM advisories"
+      ],
+      "tl": [
+        "Lumikas sa mga dalisdis at lugar sa ilalim ng matarik na lupa kapag patuloy ang malakas na ulan",
+        "Bantayan ang mga bitak sa lupa, tumutuwid na puno, o kakaibang tunog",
+        "Lumipat sa matatag na lupa na malayo sa bangin",
+        "Sundin ang mga abiso ng PHIVOLCS at lokal na DRRM"
+      ],
+      "ceb": [
+        "Evacuate sa mga dalisdis ug lugar ubos sa habog nga yuta kung padayon ang kusog nga ulan",
+        "Bantayi ang mga bitak sa yuta, nakatagilid nga kahoy, o katingad-an nga tunog",
+        "Balhin sa lig-on nga yuta nga layo sa bangin",
+        "Sunda ang mga abiso sa PHIVOLCS ug lokal nga DRRM"
+      ]
+    }
+  },
+  "lastKnownEvacCenters": []
+}

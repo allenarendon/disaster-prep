@@ -1,0 +1,131 @@
+[
+  {
+    "id": "bul-typhoon-active-001",
+    "source": "PAGASA",
+    "hazardType": "TYPHOON",
+    "issuedAt": "2026-06-30T06:00:00.000Z",
+    "validUntil": "2026-07-05T06:00:00.000Z",
+    "affectedAreas": [
+      {
+        "barangayCode": "137404001",
+        "barangayName": "Addition Hills",
+        "cityMunicipality": "Mandaluyong City",
+        "province": "Metro Manila",
+        "region": "NCR"
+      },
+      {
+        "barangayCode": "137602001",
+        "barangayName": "Bel-Air",
+        "cityMunicipality": "Makati City",
+        "province": "Metro Manila",
+        "region": "NCR"
+      }
+    ],
+    "severity": 4,
+    "rawText": "PAGASA Tropical Cyclone Bulletin: Typhoon Carina (international name) maintains strength with maximum sustained winds of 150 km/h near the center. Signal No. 3 raised over Metro Manila including Mandaluyong and Makati. Residents in low-lying and landslide-prone areas are advised to prepare for possible preemptive evacuation. Heavy rainfall of 100-200mm expected within 24 hours."
+  },
+  {
+    "id": "bul-flood-active-002",
+    "source": "PAGASA",
+    "hazardType": "FLOOD",
+    "issuedAt": "2026-07-01T02:00:00.000Z",
+    "validUntil": "2026-07-03T02:00:00.000Z",
+    "affectedAreas": [
+      {
+        "barangayCode": "137404001",
+        "barangayName": "Addition Hills",
+        "cityMunicipality": "Mandaluyong City",
+        "province": "Metro Manila",
+        "region": "NCR"
+      },
+      {
+        "barangayCode": "137501003",
+        "barangayName": "Tondo I",
+        "cityMunicipality": "Manila",
+        "province": "Metro Manila",
+        "region": "NCR"
+      }
+    ],
+    "severity": 3,
+    "rawText": "Flood Advisory No. 2: Heavy rainfall from habagat enhanced by Typhoon Carina may cause flooding in low-lying areas of Mandaluyong and Manila, particularly near waterways. Water levels may rise rapidly. Avoid crossing flooded roads."
+  },
+  {
+    "id": "bul-typhoon-cebu-003",
+    "source": "PAGASA",
+    "hazardType": "TYPHOON",
+    "issuedAt": "2026-06-29T12:00:00.000Z",
+    "validUntil": "2026-07-04T12:00:00.000Z",
+    "affectedAreas": [
+      {
+        "barangayCode": "072217001",
+        "barangayName": "Lahug",
+        "cityMunicipality": "Cebu City",
+        "province": "Cebu",
+        "region": "Region VII"
+      },
+      {
+        "barangayCode": "072217002",
+        "barangayName": "Guadalupe",
+        "cityMunicipality": "Cebu City",
+        "province": "Cebu",
+        "region": "Region VII"
+      }
+    ],
+    "severity": 2,
+    "rawText": "Tropical Cyclone Bulletin: Signal No. 1 raised over Cebu Province. Cebu City may experience moderate to heavy rains and gusty winds. Coastal communities should monitor for possible storm surge."
+  },
+  {
+    "id": "bul-landslide-albay-004",
+    "source": "PHIVOLCS",
+    "hazardType": "LANDSLIDE",
+    "issuedAt": "2026-06-28T08:00:00.000Z",
+    "validUntil": "2026-07-06T08:00:00.000Z",
+    "affectedAreas": [
+      {
+        "barangayCode": "043405001",
+        "barangayName": "San Roque",
+        "cityMunicipality": "Legazpi City",
+        "province": "Albay",
+        "region": "Region V"
+      }
+    ],
+    "severity": 3,
+    "rawText": "PHIVOLCS Advisory: Increased rainfall may trigger landslides in slopes around Mayon Volcano foothills including Legazpi City barangays. Communities on steep slopes should prepare evacuation kits and monitor local authorities."
+  },
+  {
+    "id": "bul-typhoon-expired-005",
+    "source": "PAGASA",
+    "hazardType": "TYPHOON",
+    "issuedAt": "2026-05-01T06:00:00.000Z",
+    "validUntil": "2026-05-03T06:00:00.000Z",
+    "affectedAreas": [
+      {
+        "barangayCode": "137501001",
+        "barangayName": "Ermita",
+        "cityMunicipality": "Manila",
+        "province": "Metro Manila",
+        "region": "NCR"
+      }
+    ],
+    "severity": 2,
+    "rawText": "EXPIRED: Previous typhoon advisory for Manila. This bulletin is no longer valid."
+  },
+  {
+    "id": "bul-storm-surge-taguig-006",
+    "source": "PAGASA",
+    "hazardType": "STORM_SURGE",
+    "issuedAt": "2026-07-01T04:00:00.000Z",
+    "validUntil": "2026-07-02T04:00:00.000Z",
+    "affectedAreas": [
+      {
+        "barangayCode": "137403002",
+        "barangayName": "Lower Bicutan",
+        "cityMunicipality": "Taguig City",
+        "province": "Metro Manila",
+        "region": "NCR"
+      }
+    ],
+    "severity": 4,
+    "rawText": "Storm Surge Warning: Coastal and low-lying areas of Taguig including Lower Bicutan may experience storm surge up to 2 meters during high tide. Immediate evacuation to designated centers advised."
+  }
+]
