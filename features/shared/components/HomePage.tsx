@@ -15,6 +15,7 @@ import {
   OfflineBanner,
 } from "@/features/offline/components/OfflineBanner";
 import { useOfflineStatus } from "@/features/offline/hooks/useOfflineStatus";
+import { FlagStripe } from "@/features/shared/components/FlagStripe";
 
 type Tab = "guidance" | "evac" | "report";
 
@@ -26,8 +27,11 @@ export function HomePage() {
 
   if (!isOnline && hasCachedBundle === false) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center p-4">
-        <FirstTimeOfflineState />
+      <div>
+        <FlagStripe />
+        <div className="flex min-h-[50vh] items-center justify-center p-4">
+          <FirstTimeOfflineState />
+        </div>
       </div>
     );
   }
@@ -37,6 +41,7 @@ export function HomePage() {
 
   return (
     <div>
+      <FlagStripe />
       {!isOnline && (
         <OfflineBanner
           generatedAt={bundle?.generatedAt}
@@ -47,10 +52,10 @@ export function HomePage() {
       <div className="mx-auto max-w-2xl space-y-6 p-4">
         <header className="space-y-4">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">
+            <h1 className="text-2xl font-bold text-ph-blue">
               Disaster Preparedness Guide
             </h1>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-700">
               Plain-language guidance and evacuation centers for the Philippines
             </p>
           </div>
@@ -68,7 +73,7 @@ export function HomePage() {
           </p>
         ) : (
           <>
-            <nav className="flex gap-2 border-b border-slate-200">
+            <nav className="flex gap-2 border-b border-ph-blue/20">
               {(
                 [
                   ["guidance", "Guidance"],
@@ -82,8 +87,8 @@ export function HomePage() {
                   onClick={() => setActiveTab(id)}
                   className={`border-b-2 px-3 py-2 text-sm font-medium ${
                     activeTab === id
-                      ? "border-blue-700 text-blue-700"
-                      : "border-transparent text-slate-600"
+                      ? "border-ph-blue text-ph-blue"
+                      : "border-transparent text-slate-600 hover:text-ph-blue"
                   }`}
                 >
                   {label}

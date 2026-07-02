@@ -16,7 +16,7 @@ export function OfflineBanner({
     : "unknown time";
 
   return (
-    <div className="border-b border-amber-300 bg-amber-50 px-4 py-2 text-sm text-amber-900">
+    <div className="border-b border-ph-gold bg-ph-gold-light px-4 py-2 text-sm text-ph-blue-dark">
       <strong>Offline mode</strong> — showing last saved information from{" "}
       {formatted}.
       {isStale && (
@@ -30,7 +30,7 @@ export function OfflineBanner({
 
 export function FirstTimeOfflineState() {
   return (
-    <div className="mx-auto max-w-md rounded-lg border border-slate-200 bg-white p-6 text-center shadow-sm">
+    <div className="mx-auto max-w-md rounded-lg border border-ph-blue/20 bg-white p-6 text-center shadow-sm">
       <h2 className="text-lg font-semibold text-slate-900">
         Connect briefly to get started
       </h2>

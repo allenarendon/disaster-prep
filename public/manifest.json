@@ -4,8 +4,8 @@
   "description": "Location-specific disaster guidance and evacuation center status for the Philippines",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f8fafc",
-  "theme_color": "#1d4ed8",
+  "background_color": "#FFFBF5",
+  "theme_color": "#0038A8",
   "icons": [
     {
       "src": "/icon.svg",

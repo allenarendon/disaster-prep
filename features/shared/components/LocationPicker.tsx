@@ -98,7 +98,7 @@ export function LocationPicker({
             <p className="mt-1 text-xs text-slate-500">Searching...</p>
           )}
           {suggestions.length > 1 && (
-            <p className="mt-1 text-xs text-amber-700">
+            <p className="mt-1 text-xs text-ph-gold-dark">
               Multiple matches found — please select your exact barangay.
             </p>
           )}

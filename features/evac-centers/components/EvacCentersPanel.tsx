@@ -10,7 +10,7 @@ import { ErrorState } from "@/features/shared/components/ErrorState";
 const EvacMap = dynamic(
   () =>
     import("@/features/evac-centers/components/EvacMap").then((m) => m.EvacMap),
-  { ssr: false, loading: () => <div className="h-64 animate-pulse rounded-lg bg-slate-200" /> }
+  { ssr: false, loading: () => <div className="h-64 animate-pulse rounded-lg bg-ph-blue/10" /> }
 );
 
 interface EvacSearchResponse {
@@ -83,7 +83,7 @@ export function EvacCentersPanel({
   return (
     <div className="space-y-4">
       {data?.message && (
-        <p className="text-sm text-amber-700">{data.message}</p>
+        <p className="text-sm text-ph-gold-dark">{data.message}</p>
       )}
 
       {centers.length > 0 && (
@@ -94,7 +94,7 @@ export function EvacCentersPanel({
         {centers.map((center) => (
           <li
             key={center.id}
-            className="rounded-lg border border-slate-200 bg-white p-4"
+            className="rounded-lg border border-ph-blue/20 bg-white p-4"
           >
             <div className="flex items-start justify-between gap-2">
               <div>
@@ -112,12 +112,12 @@ export function EvacCentersPanel({
               </p>
             )}
             {center.isStale && (
-              <p className="mt-1 text-xs text-amber-700">
+              <p className="mt-1 text-xs text-ph-gold-dark">
                 Last confirmed over 24 hours ago — may be outdated.
               </p>
             )}
             {center.conflictNote && (
-              <p className="mt-1 text-xs text-amber-700">{center.conflictNote}</p>
+              <p className="mt-1 text-xs text-ph-gold-dark">{center.conflictNote}</p>
             )}
             {center.reportCount > 0 && (
               <p className="mt-1 text-xs text-slate-500">

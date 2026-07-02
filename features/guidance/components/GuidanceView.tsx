@@ -139,7 +139,7 @@ export function GuidanceView({
   return (
     <div className="space-y-4">
       {noActiveAdvisory && (
-        <div className="rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
+        <div className="rounded-lg border border-ph-blue/30 bg-ph-blue-light p-3 text-sm text-ph-blue-dark">
           No active hazard advisory for your location right now.
         </div>
       )}
@@ -152,8 +152,8 @@ export function GuidanceView({
             onClick={() => setActivePhase(phase)}
             className={`rounded-full px-3 py-1 text-xs font-medium ${
               activePhase === phase
-                ? "bg-blue-700 text-white"
-                : "bg-slate-200 text-slate-700"
+                ? "bg-ph-blue text-white"
+                : "bg-ph-gold-light text-slate-700 border border-ph-gold/40"
             }`}
           >
             {PHASE_LABELS[phase]}
@@ -171,12 +171,12 @@ export function GuidanceView({
             key={`${item.bulletinId}-${item.phase}`}
             className={`rounded-lg border p-4 ${
               item.isFallback
-                ? "border-amber-200 bg-amber-50"
-                : "border-slate-200 bg-white"
+                ? "border-ph-gold/50 bg-ph-gold-light"
+                : "border-ph-blue/20 bg-white"
             }`}
           >
             {item.isFallback && (
-              <span className="mb-2 inline-block rounded bg-amber-200 px-2 py-0.5 text-xs font-semibold text-amber-900">
+              <span className="mb-2 inline-block rounded bg-ph-gold px-2 py-0.5 text-xs font-semibold text-ph-blue-dark">
                 General / fallback guidance
               </span>
             )}

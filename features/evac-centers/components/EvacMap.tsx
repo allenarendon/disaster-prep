@@ -5,9 +5,9 @@ import type { EvacuationCenter } from "@/features/shared/types";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const STATUS_COLORS: Record<string, string> = {
-  OPEN: "#16a34a",
-  FULL: "#d97706",
-  CLOSED: "#dc2626",
+  OPEN: "#0038A8",
+  FULL: "#FCD116",
+  CLOSED: "#CE1126",
   UNKNOWN: "#64748b",
 };
 
@@ -105,7 +105,7 @@ export function EvacMap({
   return (
     <div
       ref={mapContainer}
-      className="h-64 w-full overflow-hidden rounded-lg border border-slate-200"
+      className="h-64 w-full overflow-hidden rounded-lg border border-ph-blue/20"
     />
   );
 }

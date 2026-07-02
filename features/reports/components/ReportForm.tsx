@@ -139,9 +139,7 @@ export function ReportForm({ location }: { location: LocationRef }) {
       )}
 
       {status === "success" && (
-        <p className="text-sm text-green-700">
-          Thank you. Your report has been submitted and will be reviewed.
-        </p>
+        <p className="text-sm text-ph-blue">Thank you. Your report has been submitted and will be reviewed.</p>
       )}
 
       <Button type="submit">Submit report</Button>

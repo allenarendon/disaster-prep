@@ -2,6 +2,13 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+:root {
+  --ph-blue: #0038a8;
+  --ph-red: #ce1126;
+  --ph-gold: #fcd116;
+  --ph-cream: #fffbf5;
+}
+
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  @apply bg-ph-cream text-slate-900 antialiased;
 }
