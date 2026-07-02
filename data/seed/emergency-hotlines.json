@@ -1,0 +1,235 @@
+{
+  "national": [
+    {
+      "category": "EMERGENCY",
+      "label": "National Emergency Hotline",
+      "number": "911"
+    },
+    {
+      "category": "POLICE",
+      "label": "Philippine National Police (PNP)",
+      "number": "117"
+    },
+    {
+      "category": "FIRE",
+      "label": "Bureau of Fire Protection (BFP)",
+      "number": "160"
+    },
+    {
+      "category": "MEDICAL",
+      "label": "Philippine Red Cross",
+      "number": "143"
+    }
+  ],
+  "cities": [
+    {
+      "cityMunicipality": "Mandaluyong",
+      "province": "Metro Manila",
+      "contacts": [
+        {
+          "category": "DRRM",
+          "label": "Mandaluyong City DRRM Office",
+          "number": "(02) 8533-2404"
+        },
+        {
+          "category": "POLICE",
+          "label": "Mandaluyong City Police",
+          "number": "(02) 8532-5001"
+        },
+        {
+          "category": "FIRE",
+          "label": "Mandaluyong City Fire Station",
+          "number": "(02) 8532-2222"
+        }
+      ]
+    },
+    {
+      "cityMunicipality": "Makati",
+      "province": "Metro Manila",
+      "contacts": [
+        {
+          "category": "DRRM",
+          "label": "Makati City DRRM Office",
+          "number": "(02) 8870-1448"
+        },
+        {
+          "category": "POLICE",
+          "label": "Makati City Police",
+          "number": "(02) 8870-1601"
+        },
+        {
+          "category": "FIRE",
+          "label": "Makati City Fire Station",
+          "number": "(02) 8870-1600"
+        }
+      ]
+    },
+    {
+      "cityMunicipality": "Manila",
+      "province": "Metro Manila",
+      "contacts": [
+        {
+          "category": "DRRM",
+          "label": "Manila DRRM Office",
+          "number": "(02) 8527-4994"
+        },
+        {
+          "category": "POLICE",
+          "label": "Manila Police District",
+          "number": "(02) 8523-3378"
+        },
+        {
+          "category": "FIRE",
+          "label": "Manila Fire District",
+          "number": "(02) 8426-0219"
+        }
+      ]
+    },
+    {
+      "cityMunicipality": "Taguig City",
+      "province": "Metro Manila",
+      "contacts": [
+        {
+          "category": "DRRM",
+          "label": "Taguig City DRRM Office",
+          "number": "(02) 8789-3200"
+        },
+        {
+          "category": "POLICE",
+          "label": "Taguig City Police",
+          "number": "(02) 8789-3210"
+        },
+        {
+          "category": "FIRE",
+          "label": "Taguig City Fire Station",
+          "number": "(02) 8789-3220"
+        }
+      ]
+    },
+    {
+      "cityMunicipality": "San Juan",
+      "province": "Metro Manila",
+      "contacts": [
+        {
+          "category": "DRRM",
+          "label": "San Juan City DRRM Office",
+          "number": "(02) 8723-0800"
+        },
+        {
+          "category": "POLICE",
+          "label": "San Juan City Police",
+          "number": "(02) 8723-0810"
+        },
+        {
+          "category": "FIRE",
+          "label": "San Juan City Fire Station",
+          "number": "(02) 8723-0820"
+        }
+      ]
+    },
+    {
+      "cityMunicipality": "Cebu City",
+      "province": "Cebu",
+      "contacts": [
+        {
+          "category": "DRRM",
+          "label": "Cebu City DRRM Office",
+          "number": "(032) 254-1234"
+        },
+        {
+          "category": "POLICE",
+          "label": "Cebu City Police Office",
+          "number": "(032) 254-5678"
+        },
+        {
+          "category": "FIRE",
+          "label": "Cebu City Fire Department",
+          "number": "(032) 254-9012"
+        }
+      ]
+    },
+    {
+      "cityMunicipality": "Legazpi City",
+      "province": "Albay",
+      "contacts": [
+        {
+          "category": "DRRM",
+          "label": "Legazpi City DRRM Office",
+          "number": "(052) 742-0123"
+        },
+        {
+          "category": "POLICE",
+          "label": "Legazpi City Police",
+          "number": "(052) 742-0456"
+        },
+        {
+          "category": "FIRE",
+          "label": "Legazpi City Fire Station",
+          "number": "(052) 742-0789"
+        }
+      ]
+    }
+  ],
+  "barangays": [
+    {
+      "barangayCode": "137401001",
+      "contacts": [
+        {
+          "category": "BARANGAY",
+          "label": "Addition Hills Barangay Hall",
+          "number": "(02) 8533-1101"
+        }
+      ]
+    },
+    {
+      "barangayCode": "137602002",
+      "contacts": [
+        {
+          "category": "BARANGAY",
+          "label": "Bel-Air Barangay Hall",
+          "number": "(02) 8870-2101"
+        }
+      ]
+    },
+    {
+      "barangayCode": "137607008",
+      "contacts": [
+        {
+          "category": "BARANGAY",
+          "label": "Lower Bicutan Barangay Hall",
+          "number": "(02) 8789-3301"
+        }
+      ]
+    },
+    {
+      "barangayCode": "072217041",
+      "contacts": [
+        {
+          "category": "BARANGAY",
+          "label": "Lahug Barangay Hall",
+          "number": "(032) 254-1101"
+        }
+      ]
+    },
+    {
+      "barangayCode": "050506067",
+      "contacts": [
+        {
+          "category": "BARANGAY",
+          "label": "San Roque Barangay Hall (Legazpi)",
+          "number": "(052) 742-1101"
+        }
+      ]
+    },
+    {
+      "barangayCode": "137405001",
+      "contacts": [
+        {
+          "category": "BARANGAY",
+          "label": "Addition Hills Barangay Hall (San Juan)",
+          "number": "(02) 8723-1101"
+        }
+      ]
+    }
+  ]
+}

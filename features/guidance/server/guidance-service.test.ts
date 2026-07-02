@@ -30,9 +30,9 @@ describe("generateGuidance", () => {
   it("returns guidance for active bulletin location", async () => {
     const result = await generateGuidance({
       location: {
-        barangayCode: "137404001",
+        barangayCode: "137401001",
         barangayName: "Addition Hills",
-        cityMunicipality: "Mandaluyong City",
+        cityMunicipality: "Mandaluyong",
         province: "Metro Manila",
         region: "NCR",
       },
@@ -50,9 +50,9 @@ describe("generateGuidance", () => {
   it("does not merge conflicting bulletins into one response set per bulletin", async () => {
     const result = await generateGuidance({
       location: {
-        barangayCode: "137404001",
+        barangayCode: "137401001",
         barangayName: "Addition Hills",
-        cityMunicipality: "Mandaluyong City",
+        cityMunicipality: "Mandaluyong",
         province: "Metro Manila",
         region: "NCR",
       },

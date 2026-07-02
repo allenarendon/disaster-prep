@@ -15,9 +15,14 @@ describe("location resolver", () => {
     expect(suggestions.length).toBeGreaterThan(1);
   });
 
+  it("finds barangays outside the original demo seed set", () => {
+    const matches = searchLocations("Quezon City");
+    expect(matches.length).toBeGreaterThan(0);
+  });
+
   it("resolves exact barangay by code", () => {
-    const { resolved } = resolveLocation({ barangayCode: "137404001" });
+    const { resolved } = resolveLocation({ barangayCode: "137401001" });
     expect(resolved?.barangayName).toBe("Addition Hills");
-    expect(resolved?.cityMunicipality).toBe("Mandaluyong City");
+    expect(resolved?.cityMunicipality).toBe("Mandaluyong");
   });
 });

@@ -12,9 +12,9 @@ describe("submitCommunityReport", () => {
   const baseInput = {
     type: "ROAD_CONDITION" as const,
     location: {
-      barangayCode: "137404001",
+      barangayCode: "137401001",
       barangayName: "Addition Hills",
-      cityMunicipality: "Mandaluyong City",
+      cityMunicipality: "Mandaluyong",
       province: "Metro Manila",
       region: "NCR",
     },

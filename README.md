@@ -24,6 +24,7 @@ Open [http://localhost:3000](http://localhost:3000). The app runs in **local/moc
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript check |
 | `npm run test` | Smoke tests (edge-case server logic) |
+| `npm run generate:locations` | Regenerate PSGC barangay data (~42k locations) |
 
 ## Environment variables
 
@@ -35,6 +36,8 @@ Copy `.env.example` to `.env.local`:
 - `NEXT_PUBLIC_APP_URL` — base URL for share links
 
 Without Supabase or Anthropic keys, the app uses seeded JSON data and mock AI responses.
+
+Location search uses the full Philippine barangay list (~42,000 entries) from PSA PSGC data in [`data/psgc/locations.json`](data/psgc/locations.json). Regenerate with `npm run generate:locations` (see [`data/psgc/README.md`](data/psgc/README.md)).
 
 ## Deployment
 

@@ -38,11 +38,28 @@ export function getAllLocations(): LocationRef[] {
   return locations;
 }
 
+function getSearchHaystack(location: LocationRef): string {
+  return normalize(
+    `${location.barangayName} ${location.cityMunicipality} ${location.province} ${location.region}`
+  );
+}
+
+function isCandidate(query: string, location: LocationRef): boolean {
+  const haystack = getSearchHaystack(location);
+  if (haystack.includes(query)) return true;
+
+  const parts = query.split(" ").filter(Boolean);
+  return parts.length > 0 && parts.every((part) => haystack.includes(part));
+}
+
 export function searchLocations(query: string, limit = 5): LocationRef[] {
   const trimmed = query.trim();
   if (!trimmed) return [];
 
-  return locations
+  const q = normalize(trimmed);
+  const candidates = locations.filter((location) => isCandidate(q, location));
+
+  return candidates
     .map((location) => ({ location, score: scoreMatch(trimmed, location) }))
     .filter((item) => item.score >= 40)
     .sort((a, b) => b.score - a.score)

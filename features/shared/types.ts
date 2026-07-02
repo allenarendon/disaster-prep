@@ -154,3 +154,29 @@ export interface LocationSearchResult {
   matches: LocationRef[];
   query: string;
 }
+
+// ── Emergency Hotlines ────────────────────────────────────
+export type HotlineCategory =
+  | "EMERGENCY"
+  | "POLICE"
+  | "FIRE"
+  | "DRRM"
+  | "BARANGAY"
+  | "MEDICAL"
+  | "OTHER";
+
+export interface EmergencyHotline {
+  category: HotlineCategory;
+  label: string;
+  number: string;
+  notes?: string;
+  scope: "national" | "city" | "barangay";
+}
+
+export interface HotlinesResponse {
+  location: LocationRef;
+  hotlines: EmergencyHotline[];
+  hasBarangaySpecific: boolean;
+  hasCitySpecific: boolean;
+  disclaimer: string;
+}

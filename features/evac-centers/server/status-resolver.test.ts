@@ -7,9 +7,9 @@ const baseCenter: EvacuationCenter = {
   id: "evac-test-001",
   name: "Test Center",
   location: {
-    barangayCode: "137404001",
+    barangayCode: "137401001",
     barangayName: "Addition Hills",
-    cityMunicipality: "Mandaluyong City",
+    cityMunicipality: "Mandaluyong",
     province: "Metro Manila",
     region: "NCR",
   },

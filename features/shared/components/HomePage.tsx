@@ -10,6 +10,7 @@ import { LocationPicker } from "@/features/shared/components/LocationPicker";
 import { GuidanceView } from "@/features/guidance/components/GuidanceView";
 import { EvacCentersPanel } from "@/features/evac-centers/components/EvacCentersPanel";
 import { ReportForm } from "@/features/reports/components/ReportForm";
+import { HotlinesPanel } from "@/features/hotlines/components/HotlinesPanel";
 import {
   FirstTimeOfflineState,
   OfflineBanner,
@@ -17,7 +18,7 @@ import {
 import { useOfflineStatus } from "@/features/offline/hooks/useOfflineStatus";
 import { FlagStripe } from "@/features/shared/components/FlagStripe";
 
-type Tab = "guidance" | "evac" | "report";
+type Tab = "guidance" | "evac" | "hotlines" | "report";
 
 export function HomePage() {
   const [language, setLanguage] = useLanguagePreference();
@@ -73,11 +74,12 @@ export function HomePage() {
           </p>
         ) : (
           <>
-            <nav className="flex gap-2 border-b border-ph-blue/20">
+            <nav className="flex flex-wrap gap-2 border-b border-ph-blue/20">
               {(
                 [
                   ["guidance", "Guidance"],
                   ["evac", "Evacuation centers"],
+                  ["hotlines", "Emergency hotlines"],
                   ["report", "Community report"],
                 ] as const
               ).map(([id, label]) => (
@@ -110,6 +112,9 @@ export function HomePage() {
                 isOnline={isOnline}
                 offlineCenters={offlineCenters}
               />
+            )}
+            {activeTab === "hotlines" && (
+              <HotlinesPanel location={location} isOnline={isOnline} />
             )}
             {activeTab === "report" && <ReportForm location={location} />}
           </>

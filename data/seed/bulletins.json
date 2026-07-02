@@ -7,18 +7,22 @@
     "validUntil": "2026-07-05T06:00:00.000Z",
     "affectedAreas": [
       {
-        "barangayCode": "137404001",
+        "barangayCode": "137401001",
         "barangayName": "Addition Hills",
-        "cityMunicipality": "Mandaluyong City",
+        "cityMunicipality": "Mandaluyong",
         "province": "Metro Manila",
-        "region": "NCR"
+        "region": "NCR",
+        "lat": 14.5946,
+        "lng": 121.0391
       },
       {
-        "barangayCode": "137602001",
+        "barangayCode": "137602002",
         "barangayName": "Bel-Air",
-        "cityMunicipality": "Makati City",
+        "cityMunicipality": "Makati",
         "province": "Metro Manila",
-        "region": "NCR"
+        "region": "NCR",
+        "lat": 14.5639,
+        "lng": 121.0263
       }
     ],
     "severity": 4,
@@ -32,18 +36,22 @@
     "validUntil": "2026-07-03T02:00:00.000Z",
     "affectedAreas": [
       {
-        "barangayCode": "137404001",
+        "barangayCode": "137401001",
         "barangayName": "Addition Hills",
-        "cityMunicipality": "Mandaluyong City",
+        "cityMunicipality": "Mandaluyong",
         "province": "Metro Manila",
-        "region": "NCR"
+        "region": "NCR",
+        "lat": 14.5946,
+        "lng": 121.0391
       },
       {
-        "barangayCode": "137501003",
-        "barangayName": "Tondo I",
+        "barangayCode": "133910004",
+        "barangayName": "Barangay 689",
         "cityMunicipality": "Manila",
         "province": "Metro Manila",
-        "region": "NCR"
+        "region": "NCR",
+        "lat": 16.17,
+        "lng": 120.7802
       }
     ],
     "severity": 3,
@@ -57,18 +65,22 @@
     "validUntil": "2026-07-04T12:00:00.000Z",
     "affectedAreas": [
       {
-        "barangayCode": "072217001",
-        "barangayName": "Lahug",
+        "barangayCode": "072217041",
+        "barangayName": "Lahug (Pob.)",
         "cityMunicipality": "Cebu City",
         "province": "Cebu",
-        "region": "Region VII"
+        "region": "Region 07",
+        "lat": 10.3315,
+        "lng": 123.901
       },
       {
-        "barangayCode": "072217002",
+        "barangayCode": "072217029",
         "barangayName": "Guadalupe",
         "cityMunicipality": "Cebu City",
         "province": "Cebu",
-        "region": "Region VII"
+        "region": "Region 07",
+        "lat": 14.5587,
+        "lng": 121.0446
       }
     ],
     "severity": 2,
@@ -82,11 +94,13 @@
     "validUntil": "2026-07-06T08:00:00.000Z",
     "affectedAreas": [
       {
-        "barangayCode": "043405001",
-        "barangayName": "San Roque",
+        "barangayCode": "050506067",
+        "barangayName": "Bgy. 32 - San Roque (Bgy. 66)",
         "cityMunicipality": "Legazpi City",
         "province": "Albay",
-        "region": "Region V"
+        "region": "Region 05",
+        "lat": 13.13,
+        "lng": 123.73
       }
     ],
     "severity": 3,
@@ -100,11 +114,13 @@
     "validUntil": "2026-05-03T06:00:00.000Z",
     "affectedAreas": [
       {
-        "barangayCode": "137501001",
-        "barangayName": "Ermita",
+        "barangayCode": "133902001",
+        "barangayName": "Barangay 287",
         "cityMunicipality": "Manila",
         "province": "Metro Manila",
-        "region": "NCR"
+        "region": "NCR",
+        "lat": 16.17,
+        "lng": 120.7802
       }
     ],
     "severity": 2,
@@ -118,11 +134,13 @@
     "validUntil": "2026-07-02T04:00:00.000Z",
     "affectedAreas": [
       {
-        "barangayCode": "137403002",
+        "barangayCode": "137607008",
         "barangayName": "Lower Bicutan",
         "cityMunicipality": "Taguig City",
         "province": "Metro Manila",
-        "region": "NCR"
+        "region": "NCR",
+        "lat": 14.5033,
+        "lng": 121.0642
       }
     ],
     "severity": 4,

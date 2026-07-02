@@ -3,11 +3,13 @@
     "id": "evac-mandaluyong-001",
     "name": "Mandaluyong High School Gym",
     "location": {
-      "barangayCode": "137404001",
+      "barangayCode": "137401001",
       "barangayName": "Addition Hills",
-      "cityMunicipality": "Mandaluyong City",
+      "cityMunicipality": "Mandaluyong",
       "province": "Metro Manila",
-      "region": "NCR"
+      "region": "NCR",
+      "lat": 14.5946,
+      "lng": 121.0391
     },
     "lat": 14.5845,
     "lng": 121.0421,
@@ -20,11 +22,13 @@
     "id": "evac-mandaluyong-002",
     "name": "Addition Hills Covered Court",
     "location": {
-      "barangayCode": "137404001",
+      "barangayCode": "137401001",
       "barangayName": "Addition Hills",
-      "cityMunicipality": "Mandaluyong City",
+      "cityMunicipality": "Mandaluyong",
       "province": "Metro Manila",
-      "region": "NCR"
+      "region": "NCR",
+      "lat": 14.5946,
+      "lng": 121.0391
     },
     "lat": 14.5821,
     "lng": 121.0398,
@@ -37,11 +41,13 @@
     "id": "evac-makati-001",
     "name": "Bel-Air Elementary School",
     "location": {
-      "barangayCode": "137602001",
+      "barangayCode": "137602002",
       "barangayName": "Bel-Air",
-      "cityMunicipality": "Makati City",
+      "cityMunicipality": "Makati",
       "province": "Metro Manila",
-      "region": "NCR"
+      "region": "NCR",
+      "lat": 14.5639,
+      "lng": 121.0263
     },
     "lat": 14.5558,
     "lng": 121.0256,
@@ -54,11 +60,13 @@
     "id": "evac-makati-002",
     "name": "Makati Sports Club Evacuation Area",
     "location": {
-      "barangayCode": "137602002",
+      "barangayCode": "137602020",
       "barangayName": "Poblacion",
-      "cityMunicipality": "Makati City",
+      "cityMunicipality": "Makati",
       "province": "Metro Manila",
-      "region": "NCR"
+      "region": "NCR",
+      "lat": 14.33,
+      "lng": 121.08
     },
     "lat": 14.5662,
     "lng": 121.0325,
@@ -71,11 +79,13 @@
     "id": "evac-manila-001",
     "name": "Rizal Memorial Sports Complex",
     "location": {
-      "barangayCode": "137501002",
-      "barangayName": "Malate",
+      "barangayCode": "133904001",
+      "barangayName": "Barangay 268",
       "cityMunicipality": "Manila",
       "province": "Metro Manila",
-      "region": "NCR"
+      "region": "NCR",
+      "lat": 16.17,
+      "lng": 120.7802
     },
     "lat": 14.5623,
     "lng": 120.9931,
@@ -88,11 +98,13 @@
     "id": "evac-taguig-001",
     "name": "Taguig City University Gym",
     "location": {
-      "barangayCode": "137403002",
+      "barangayCode": "137607008",
       "barangayName": "Lower Bicutan",
       "cityMunicipality": "Taguig City",
       "province": "Metro Manila",
-      "region": "NCR"
+      "region": "NCR",
+      "lat": 14.5033,
+      "lng": 121.0642
     },
     "lat": 14.4891,
     "lng": 121.0512,
@@ -105,11 +117,13 @@
     "id": "evac-cebu-001",
     "name": "Cebu City Sports Center",
     "location": {
-      "barangayCode": "072217001",
-      "barangayName": "Lahug",
+      "barangayCode": "072217041",
+      "barangayName": "Lahug (Pob.)",
       "cityMunicipality": "Cebu City",
       "province": "Cebu",
-      "region": "Region VII"
+      "region": "Region 07",
+      "lat": 10.3315,
+      "lng": 123.901
     },
     "lat": 10.3245,
     "lng": 123.8998,
@@ -122,11 +136,13 @@
     "id": "evac-cebu-002",
     "name": "Guadalupe Barangay Hall",
     "location": {
-      "barangayCode": "072217002",
+      "barangayCode": "072217029",
       "barangayName": "Guadalupe",
       "cityMunicipality": "Cebu City",
       "province": "Cebu",
-      "region": "Region VII"
+      "region": "Region 07",
+      "lat": 14.5587,
+      "lng": 121.0446
     },
     "lat": 10.3161,
     "lng": 123.8867,
@@ -139,11 +155,13 @@
     "id": "evac-albay-001",
     "name": "Legazpi City Convention Center",
     "location": {
-      "barangayCode": "043405001",
-      "barangayName": "San Roque",
+      "barangayCode": "050506067",
+      "barangayName": "Bgy. 32 - San Roque (Bgy. 66)",
       "cityMunicipality": "Legazpi City",
       "province": "Albay",
-      "region": "Region V"
+      "region": "Region 05",
+      "lat": 13.13,
+      "lng": 123.73
     },
     "lat": 13.1425,
     "lng": 123.7356,
@@ -156,11 +174,13 @@
     "id": "evac-remote-001",
     "name": "San Juan City Gymnasium",
     "location": {
-      "barangayCode": "137601001",
+      "barangayCode": "137405001",
       "barangayName": "Addition Hills",
-      "cityMunicipality": "San Juan City",
+      "cityMunicipality": "San Juan",
       "province": "Metro Manila",
-      "region": "NCR"
+      "region": "NCR",
+      "lat": 14.5946,
+      "lng": 121.0391
     },
     "lat": 14.6025,
     "lng": 121.0395,
