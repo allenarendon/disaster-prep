@@ -23,7 +23,7 @@ Open [http://localhost:3000](http://localhost:3000). The app runs in **local/moc
 | `npm run build` | Production build |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript check |
-| `npm run test` | Vitest unit tests |
+| `npm run test` | Smoke tests (edge-case server logic) |
 
 ## Environment variables
 
@@ -36,6 +36,50 @@ Copy `.env.example` to `.env.local`:
 
 Without Supabase or Anthropic keys, the app uses seeded JSON data and mock AI responses.
 
+## Deployment
+
+Production deploys run via **GitHub Actions** on every push to `main` (after CI passes). The workflow is defined in [`.github/workflows/ci-deploy.yml`](./.github/workflows/ci-deploy.yml).
+
+### One-time Vercel setup
+
+1. Create a [Vercel](https://vercel.com) account.
+2. Link the project locally to obtain org and project IDs:
+
+```bash
+npm i -g vercel
+vercel login
+vercel link
+```
+
+This creates `.vercel/project.json` (gitignored) with `orgId` and `projectId`.
+
+3. Add **production environment variables** in Vercel → Project → Settings → Environment Variables:
+
+| Variable | Required | Notes |
+|----------|----------|-------|
+| `NEXT_PUBLIC_APP_URL` | Yes | Your production URL, e.g. `https://disaster-prep.vercel.app` |
+| `LGU_ADMIN_API_KEY` | Recommended | Strong random secret for evac status PATCH |
+| `ANTHROPIC_API_KEY` | Optional | Enables real Claude guidance |
+| `NEXT_PUBLIC_SUPABASE_URL` | Optional | Only if using Supabase |
+| `SUPABASE_SERVICE_KEY` | Optional | Server-only; never expose to client |
+
+4. Create a Vercel token: Account Settings → Tokens.
+
+5. Add **GitHub repository secrets** (repo → Settings → Secrets and variables → Actions):
+
+| Secret | Source |
+|--------|--------|
+| `VERCEL_TOKEN` | Vercel account token |
+| `VERCEL_ORG_ID` | `orgId` from `.vercel/project.json` |
+| `VERCEL_PROJECT_ID` | `projectId` from `.vercel/project.json` |
+
+### CI and deploy behavior
+
+- **Pull requests** to `main`: runs lint, typecheck, smoke tests, and build only.
+- **Push to `main`**: runs CI, then deploys to Vercel production via `vercel-action`.
+
+After the first deploy, set `NEXT_PUBLIC_APP_URL` in Vercel to your live domain so share links point to production, then trigger a redeploy (push to `main` or redeploy from the Vercel dashboard).
+
 ## Features
 
 - Location-specific hazard guidance (Tagalog, Bisaya, English)
@@ -46,4 +90,4 @@ Without Supabase or Anthropic keys, the app uses seeded JSON data and mock AI re
 
 ## Architecture
 
-See [`SPEC_AND_ARCHITECTURE.md`](./SPEC_AND_ARCHITECTURE.md) for full behavior rules and acceptance criteria.
+See [`docs/SPEC_AND_ARCHITECTURE.md`](./docs/SPEC_AND_ARCHITECTURE.md) for full behavior rules and acceptance criteria.
