@@ -86,6 +86,8 @@ export interface EvacuationCenter {
   distanceKm?: number;
   isStale?: boolean;
   conflictNote?: string;
+  /** Placeholder center synthesized for barangays without verified LGU data. */
+  isMock?: boolean;
 }
 
 // ── Community Reports ─────────────────────────────────────
@@ -151,8 +153,12 @@ export interface ApiErrorBody {
 }
 
 export interface LocationSearchResult {
-  matches: LocationRef[];
+  matches: LocationSearchMatch[];
   query: string;
+}
+
+export interface LocationSearchMatch extends LocationRef {
+  knownEvacCenter: boolean;
 }
 
 // ── Emergency Hotlines ────────────────────────────────────

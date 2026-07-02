@@ -1,5 +1,8 @@
-import type { LocationRef } from "@/features/shared/types";
+import type { LocationRef, LocationSearchMatch } from "@/features/shared/types";
+import { normalizeLocationCoordinates } from "@/lib/data/barangay-coordinates";
+import { hasVerifiedEvacCenter } from "@/lib/data/evac-center-catalog";
 import { getSeedLocations } from "@/lib/data/seed-loader";
+import { haversineKm, isPhilippinesCoordinate } from "@/lib/data/geo";
 
 const locations = getSeedLocations();
 
@@ -31,11 +34,16 @@ function scoreMatch(query: string, location: LocationRef): number {
 }
 
 export function getLocationByCode(barangayCode: string): LocationRef | undefined {
-  return locations.find((l) => l.barangayCode === barangayCode);
+  const location = locations.find((l) => l.barangayCode === barangayCode);
+  return location ? normalizeLocationCoordinates(location) : undefined;
 }
 
 export function getAllLocations(): LocationRef[] {
   return locations;
+}
+
+export function hasKnownEvacCenter(barangayCode: string): boolean {
+  return hasVerifiedEvacCenter(barangayCode);
 }
 
 function getSearchHaystack(location: LocationRef): string {
@@ -52,7 +60,20 @@ function isCandidate(query: string, location: LocationRef): boolean {
   return parts.length > 0 && parts.every((part) => haystack.includes(part));
 }
 
-export function searchLocations(query: string, limit = 5): LocationRef[] {
+export const LOCATION_SEARCH_DEFAULT_LIMIT = 20;
+export const LOCATION_SEARCH_MAX_LIMIT = 20;
+
+export function searchLocations(
+  query: string,
+  limit = LOCATION_SEARCH_DEFAULT_LIMIT
+): LocationRef[] {
+  return searchLocationsWithCoverage(query, limit).map((item) => item.location);
+}
+
+export function searchLocationsWithCoverage(
+  query: string,
+  limit = LOCATION_SEARCH_DEFAULT_LIMIT
+): Array<{ location: LocationRef; knownEvacCenter: boolean }> {
   const trimmed = query.trim();
   if (!trimmed) return [];
 
@@ -60,11 +81,24 @@ export function searchLocations(query: string, limit = 5): LocationRef[] {
   const candidates = locations.filter((location) => isCandidate(q, location));
 
   return candidates
-    .map((location) => ({ location, score: scoreMatch(trimmed, location) }))
+    .map((location) => {
+      const knownEvacCenter = hasKnownEvacCenter(location.barangayCode);
+      const score = scoreMatch(trimmed, location) + (knownEvacCenter ? 15 : 0);
+      return { location, score, knownEvacCenter };
+    })
     .filter((item) => item.score >= 40)
-    .sort((a, b) => b.score - a.score)
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      if (a.knownEvacCenter !== b.knownEvacCenter) {
+        return a.knownEvacCenter ? -1 : 1;
+      }
+      return a.location.barangayName.localeCompare(b.location.barangayName);
+    })
     .slice(0, limit)
-    .map((item) => item.location);
+    .map((item) => ({
+      location: normalizeLocationCoordinates(item.location),
+      knownEvacCenter: item.knownEvacCenter,
+    }));
 }
 
 export function resolveLocation(
@@ -94,6 +128,15 @@ export function resolveLocation(
   }
 
   return { resolved: undefined, suggestions };
+}
+
+export function toLocationSearchMatches(
+  items: Array<{ location: LocationRef; knownEvacCenter: boolean }>
+): LocationSearchMatch[] {
+  return items.map((item) => ({
+    ...item.location,
+    knownEvacCenter: item.knownEvacCenter,
+  }));
 }
 
 export function locationMatchesArea(
@@ -127,4 +170,35 @@ export function locationMatchesArea(
     return true;
   }
   return false;
+}
+
+export function findNearestLocation(
+  lat: number,
+  lng: number
+): { location?: LocationRef; distanceKm: number } {
+  let nearest: LocationRef | undefined;
+  let nearestDistance = Number.POSITIVE_INFINITY;
+
+  for (const location of locations) {
+    if (!isPhilippinesCoordinate(location.lat, location.lng)) continue;
+    const distance = haversineKm(
+      lat,
+      lng,
+      location.lat as number,
+      location.lng as number
+    );
+    if (distance < nearestDistance) {
+      nearest = location;
+      nearestDistance = distance;
+    }
+  }
+
+  if (!nearest) {
+    return { location: undefined, distanceKm: Number.POSITIVE_INFINITY };
+  }
+
+  return {
+    location: normalizeLocationCoordinates(nearest),
+    distanceKm: nearestDistance,
+  };
 }

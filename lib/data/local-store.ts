@@ -11,6 +11,10 @@ import {
   getSeedEvacCenters,
   getSeedOfflineBundle,
 } from "@/lib/data/seed-loader";
+import {
+  getEvacCentersForBarangayAsync,
+} from "@/lib/data/evac-center-catalog";
+import { isMockEvacCenterId } from "@/lib/data/mock-evac-center";
 import { locationMatchesArea } from "@/lib/data/location-resolver";
 import type { DataStore } from "@/lib/data/types";
 
@@ -46,9 +50,10 @@ export class LocalDataStore implements DataStore {
   async getEvacCentersByBarangay(
     barangayCode: string
   ): Promise<EvacuationCenter[]> {
-    return state.evacCenters
-      .filter((c) => c.location.barangayCode === barangayCode)
-      .map((c) => ({ ...c, reportCount: 0 }));
+    return (await getEvacCentersForBarangayAsync(barangayCode)).map((c) => ({
+      ...c,
+      reportCount: 0,
+    }));
   }
 
   async getAllEvacCenters(): Promise<EvacuationCenter[]> {
@@ -57,7 +62,19 @@ export class LocalDataStore implements DataStore {
 
   async getEvacCenterById(id: string): Promise<EvacuationCenter | undefined> {
     const center = state.evacCenters.find((c) => c.id === id);
-    return center ? { ...center, reportCount: 0 } : undefined;
+    if (center) {
+      return { ...center, reportCount: 0 };
+    }
+
+    if (isMockEvacCenterId(id)) {
+      const barangayCode = id.slice("mock-evac-".length);
+      const mock = (await getEvacCentersForBarangayAsync(barangayCode)).find(
+        (item) => item.id === id
+      );
+      return mock ? { ...mock, reportCount: 0 } : undefined;
+    }
+
+    return undefined;
   }
 
   async updateEvacCenterStatus(
@@ -65,8 +82,13 @@ export class LocalDataStore implements DataStore {
     status: EvacuationCenter["status"],
     _updatedBy: string
   ): Promise<EvacuationCenter | undefined> {
-    const index = state.evacCenters.findIndex((c) => c.id === id);
-    if (index === -1) return undefined;
+    let index = state.evacCenters.findIndex((c) => c.id === id);
+    if (index === -1) {
+      const existing = await this.getEvacCenterById(id);
+      if (!existing) return undefined;
+      state.evacCenters.push(existing);
+      index = state.evacCenters.length - 1;
+    }
 
     state.evacCenters[index] = {
       ...state.evacCenters[index],

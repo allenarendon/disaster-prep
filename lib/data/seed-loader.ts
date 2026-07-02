@@ -4,17 +4,9 @@ import type { HazardBulletin } from "@/features/shared/types";
 import type { LocationRef } from "@/features/shared/types";
 import type { HotlineCategory, OfflineBundle } from "@/features/shared/types";
 
-type RawEvacCenter = {
-  id: string;
-  name: string;
-  location: LocationRef;
-  lat: number;
-  lng: number;
-  capacity?: number;
-  status: "OPEN" | "FULL" | "CLOSED" | "UNKNOWN";
-  statusUpdatedAt: string;
-  statusSource: "LGU_ADMIN" | "COMMUNITY_REPORT" | "DEFAULT_UNKNOWN";
-};
+import type { RawEvacCenter } from "@/lib/data/mock-evac-center";
+
+export type { RawEvacCenter };
 
 function seedPath(filename: string): string {
   return path.join(process.cwd(), "data", "seed", filename);

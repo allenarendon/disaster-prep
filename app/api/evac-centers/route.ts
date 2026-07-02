@@ -1,30 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { searchEvacCenters } from "@/features/evac-centers/server/evac-service";
+import { evacCentersQuerySchema } from "@/lib/validation/schemas";
 import { validationError } from "@/lib/api/errors";
 
 export async function GET(request: NextRequest) {
-  const params = request.nextUrl.searchParams;
+  const params = {
+    barangayCode: request.nextUrl.searchParams.get("barangayCode") ?? undefined,
+    locationBarangayCode:
+      request.nextUrl.searchParams.get("locationBarangayCode") ?? undefined,
+    lat: request.nextUrl.searchParams.get("lat") ?? undefined,
+    lng: request.nextUrl.searchParams.get("lng") ?? undefined,
+    radiusKm: request.nextUrl.searchParams.get("radiusKm") ?? undefined,
+  };
+  const parsed = evacCentersQuerySchema.safeParse(params);
 
-  const barangayCode = params.get("barangayCode");
-  const lat = params.get("lat");
-  const lng = params.get("lng");
-  const radiusKm = params.get("radiusKm");
-
-  if (barangayCode) {
-    const result = await searchEvacCenters({ barangayCode });
-    return NextResponse.json(result);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    return validationError(
+      issue?.message ?? "Invalid evacuation center query",
+      issue?.path.join(".")
+    );
   }
 
-  if (lat && lng) {
-    const result = await searchEvacCenters({
-      lat: Number(lat),
-      lng: Number(lng),
-      radiusKm: radiusKm ? Number(radiusKm) : undefined,
-    });
-    return NextResponse.json(result);
-  }
-
-  return validationError(
-    "Provide either barangayCode or lat and lng query parameters"
-  );
+  const result = await searchEvacCenters(parsed.data);
+  return NextResponse.json(result);
 }

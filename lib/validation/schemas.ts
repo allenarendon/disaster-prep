@@ -79,6 +79,7 @@ export const evacuationCenterSchema = z.object({
   distanceKm: z.number().optional(),
   isStale: z.boolean().optional(),
   conflictNote: z.string().optional(),
+  isMock: z.boolean().optional(),
 });
 
 export const communityReportInputSchema = z
@@ -127,16 +128,68 @@ export const bulletinsQuerySchema = z.object({
   region: z.string().optional(),
 });
 
-export const evacCentersQuerySchema = z.union([
-  z.object({
-    lat: z.coerce.number(),
-    lng: z.coerce.number(),
-    radiusKm: z.coerce.number().optional(),
-  }),
-  z.object({
-    barangayCode: z.string(),
-  }),
-]);
+export const locationsSearchQuerySchema = z.object({
+  q: z.string().trim().max(120).optional().default(""),
+  limit: z.coerce
+    .number()
+    .int()
+    .min(1)
+    .max(20)
+    .optional()
+    .default(20),
+});
+
+export const locationsNearestQuerySchema = z.object({
+  lat: z.coerce.number().min(-90).max(90),
+  lng: z.coerce.number().min(-180).max(180),
+});
+
+export const locationSearchMatchSchema = locationRefSchema.extend({
+  knownEvacCenter: z.boolean(),
+});
+
+export const hotlinesQuerySchema = z.object({
+  barangayCode: z.string().trim().min(1),
+});
+
+export const evacCentersQuerySchema = z
+  .object({
+    barangayCode: z.string().trim().min(1).optional(),
+    locationBarangayCode: z.string().trim().min(1).optional(),
+    lat: z.coerce.number().min(-90).max(90).optional(),
+    lng: z.coerce.number().min(-180).max(180).optional(),
+    radiusKm: z.coerce.number().positive().max(100).optional(),
+  })
+  .superRefine((data, ctx) => {
+    const hasBarangay = Boolean(data.barangayCode);
+    const hasLatLng = data.lat !== undefined && data.lng !== undefined;
+
+    if (!hasBarangay && !hasLatLng) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Provide either barangayCode or both lat and lng",
+        path: ["barangayCode"],
+      });
+      return;
+    }
+
+    if (hasBarangay && (data.lat !== undefined || data.lng !== undefined)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Use either barangayCode or lat/lng, not both",
+        path: ["barangayCode"],
+      });
+      return;
+    }
+
+    if (data.radiusKm !== undefined && !hasLatLng) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "radiusKm can only be used with lat and lng",
+        path: ["radiusKm"],
+      });
+    }
+  });
 
 export const offlineHazardKeySchema = z.enum([
   "TYPHOON",

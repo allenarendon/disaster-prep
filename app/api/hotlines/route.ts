@@ -1,21 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { resolveHotlinesByBarangayCode } from "@/features/hotlines/server/hotline-resolver";
-import { apiError } from "@/lib/api/errors";
+import { hotlinesQuerySchema } from "@/lib/validation/schemas";
+import { apiError, validationError } from "@/lib/api/errors";
 
 export async function GET(request: NextRequest) {
-  const barangayCode = request.nextUrl.searchParams.get("barangayCode");
+  const params = {
+    barangayCode: request.nextUrl.searchParams.get("barangayCode") ?? undefined,
+  };
+  const parsed = hotlinesQuerySchema.safeParse(params);
 
-  if (!barangayCode) {
-    return apiError(
-      "VALIDATION_ERROR",
-      "barangayCode query parameter is required",
-      400,
-      false,
-      "barangayCode"
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    return validationError(
+      issue?.message ?? "Invalid hotlines query",
+      issue?.path.join(".")
     );
   }
 
-  const result = resolveHotlinesByBarangayCode(barangayCode);
+  const result = resolveHotlinesByBarangayCode(parsed.data.barangayCode);
   if (!result) {
     return apiError(
       "NOT_FOUND",

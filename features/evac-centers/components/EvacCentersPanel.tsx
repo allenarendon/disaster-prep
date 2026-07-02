@@ -3,6 +3,11 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import type { EvacuationCenter, LocationRef } from "@/features/shared/types";
+import {
+  createMockEvacCenterForLocation,
+  MOCK_EVAC_CENTER_MESSAGE,
+} from "@/lib/data/mock-evac-center";
+import { resolveMapCenter } from "@/lib/data/geo";
 import { StatusBadge } from "@/features/shared/components/StatusBadge";
 import { LoadingSkeleton } from "@/features/shared/components/LoadingSkeleton";
 import { ErrorState } from "@/features/shared/components/ErrorState";
@@ -17,7 +22,9 @@ interface EvacSearchResponse {
   centers: EvacuationCenter[];
   searchedRadiusKm: number;
   expanded: boolean;
+  locationHasKnownCenter: boolean;
   message?: string;
+  resolvedLocation?: LocationRef;
 }
 
 export function EvacCentersPanel({
@@ -35,11 +42,23 @@ export function EvacCentersPanel({
 
   useEffect(() => {
     if (!isOnline && offlineCenters) {
+      let filteredOfflineCenters = offlineCenters.filter(
+        (center) => center.location.barangayCode === location.barangayCode
+      );
+      if (filteredOfflineCenters.length === 0) {
+        filteredOfflineCenters = [
+          { ...createMockEvacCenterForLocation(location), reportCount: 0 },
+        ];
+      }
+      const usesMockOnly = filteredOfflineCenters.every((center) => center.isMock);
       setData({
-        centers: offlineCenters,
+        centers: filteredOfflineCenters,
         searchedRadiusKm: 0,
         expanded: false,
-        message: "Showing cached evacuation centers (may be outdated).",
+        locationHasKnownCenter: !usesMockOnly,
+        message: usesMockOnly
+          ? `${MOCK_EVAC_CENTER_MESSAGE} Showing cached map data (may be outdated).`
+          : "Showing cached evacuation centers for your selected barangay (may be outdated).",
       });
       setLoading(false);
       return;
@@ -55,9 +74,7 @@ export function EvacCentersPanel({
       setLoading(true);
       setError(null);
       try {
-        const params = location.lat && location.lng
-          ? `lat=${location.lat}&lng=${location.lng}`
-          : `barangayCode=${location.barangayCode}`;
+        const params = `barangayCode=${encodeURIComponent(location.barangayCode)}`;
 
         const res = await fetch(`/api/evac-centers?${params}`);
         if (!res.ok) throw new Error("Failed");
@@ -79,6 +96,9 @@ export function EvacCentersPanel({
   if (error) return <ErrorState title="Evacuation centers" message={error} />;
 
   const centers = data?.centers ?? [];
+  const mapLocation = data?.resolvedLocation ?? location;
+  const mapCenter = resolveMapCenter(mapLocation, centers);
+  const barangayLabel = `${location.barangayName}, ${location.cityMunicipality}`;
 
   return (
     <div className="space-y-4">
@@ -86,9 +106,15 @@ export function EvacCentersPanel({
         <p className="text-sm text-ph-gold-dark">{data.message}</p>
       )}
 
-      {centers.length > 0 && (
-        <EvacMap centers={centers} userLat={location.lat} userLng={location.lng} />
-      )}
+      <EvacMap
+        centers={centers}
+        mapCenterLat={mapCenter.lat}
+        mapCenterLng={mapCenter.lng}
+        barangayLabel={barangayLabel}
+      />
+      <p className="text-xs text-slate-500">
+        Selected barangay: {barangayLabel}
+      </p>
 
       <ul className="space-y-3">
         {centers.map((center) => (
@@ -99,13 +125,15 @@ export function EvacCentersPanel({
             <div className="flex items-start justify-between gap-2">
               <div>
                 <h4 className="font-semibold text-slate-900">{center.name}</h4>
-                <p className="text-sm text-slate-500">
-                  {center.location.barangayName},{" "}
-                  {center.location.cityMunicipality}
-                </p>
+                <p className="text-sm text-slate-500">{barangayLabel}</p>
               </div>
               <StatusBadge status={center.status} />
             </div>
+            {center.isMock && (
+              <p className="mt-2 text-xs font-medium text-ph-gold-dark">
+                Mock placeholder — nearest mapped public school, not verified by LGU
+              </p>
+            )}
             {center.distanceKm !== undefined && (
               <p className="mt-1 text-xs text-slate-500">
                 {center.distanceKm.toFixed(1)} km away

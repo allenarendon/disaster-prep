@@ -23,6 +23,8 @@ Open [http://localhost:3000](http://localhost:3000). The app runs in **local/moc
 | `npm run build` | Production build |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript check |
+| `npm run check:offline-bundle-size` | Validate offline bundle stays under 2MB |
+| `npm run coverage:evac-centers` | Report barangay evacuation-center coverage |
 | `npm run test` | Smoke tests (edge-case server logic) |
 | `npm run generate:locations` | Regenerate PSGC barangay data (~42k locations) |
 
