@@ -72,10 +72,10 @@ Polls PAGASA’s public CAP Atom feed (`publicalert.pagasa.dost.gov.ph`), fetche
 
 #### Vercel Cron (automatic production polling)
 
-`vercel.json` schedules ingestion every **30 minutes**:
+`vercel.json` schedules ingestion **once daily** at 02:00 UTC (Hobby-plan limit). For every-30-minute polling, upgrade to Vercel Pro and change the schedule to `*/30 * * * *`.
 
 ```json
-{ "path": "/api/cron/ingest-bulletins", "schedule": "*/30 * * * *" }
+{ "path": "/api/cron/ingest-bulletins", "schedule": "0 2 * * *" }
 ```
 
 Vercel invokes this route as **GET** and, when `CRON_SECRET` is set, sends:
@@ -102,7 +102,7 @@ Optional: set `INGEST_CRON_SECRET` to the same value if you also want to test wi
 
 3. **Redeploy** production (push to `main` or redeploy from Vercel dashboard) so `vercel.json` cron is registered.
 
-4. Verify in **Vercel → Project → Cron Jobs** — you should see `/api/cron/ingest-bulletins` on the `*/30 * * * *` schedule.
+4. Verify in **Vercel → Project → Cron Jobs** — you should see `/api/cron/ingest-bulletins` on the `0 2 * * *` schedule (daily on Hobby).
 
 5. After the first run, check Supabase `hazard_bulletins` for rows with ids like `pagasa-cap-...`.
 
@@ -118,7 +118,7 @@ Use `POST` instead of `GET` if you prefer; both are supported.
 **Notes**
 
 - Cron jobs run on **production** deployments only (not preview).
-- Hobby plans include limited cron invocations; Pro allows more frequent schedules.
+- Hobby plans allow **one cron run per day**; use `npm run ingest:bulletins` for manual refreshes between runs.
 - If cron returns 401, confirm `CRON_SECRET` is set in Production env and redeployed.
 - Local dev: add `CRON_SECRET` to `.env.local` (see `.env.example`).
 
