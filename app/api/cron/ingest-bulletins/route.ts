@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ingestPagasaCapBulletins } from "@/features/ingestion/server/pagasa-ingest-service";
+import { ingestPhivolcsBulletins } from "@/features/ingestion/server/phivolcs-ingest-service";
 import { apiError } from "@/lib/api/errors";
 
 export const runtime = "nodejs";
@@ -20,8 +21,11 @@ function isAuthorized(request: NextRequest): boolean {
 }
 
 async function runIngestion() {
-  const result = await ingestPagasaCapBulletins();
-  return NextResponse.json(result);
+  const [pagasa, phivolcs] = await Promise.all([
+    ingestPagasaCapBulletins(),
+    ingestPhivolcsBulletins(),
+  ]);
+  return NextResponse.json({ pagasa, phivolcs });
 }
 
 export async function GET(request: NextRequest) {

@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { ingestPagasaCapBulletins } from "@/features/ingestion/server/pagasa-ingest-service";
+import { ingestPhivolcsBulletins } from "@/features/ingestion/server/phivolcs-ingest-service";
 
 function loadEnvLocal() {
   const envPath = path.join(process.cwd(), ".env.local");
@@ -25,10 +26,14 @@ function loadEnvLocal() {
   }
 }
 
-async function main() {
-  loadEnvLocal();
-  const result = await ingestPagasaCapBulletins();
-  console.log("PAGASA CAP ingestion complete:");
+function logIngestResult(label: string, result: {
+  fetched: number;
+  upserted: number;
+  expired: number;
+  skipped: number;
+  errors: string[];
+}) {
+  console.log(`${label} ingestion complete:`);
   console.log(`  fetched: ${result.fetched}`);
   console.log(`  upserted: ${result.upserted}`);
   console.log(`  expired: ${result.expired}`);
@@ -39,6 +44,17 @@ async function main() {
       console.log(`    - ${err}`);
     }
   }
+}
+
+async function main() {
+  loadEnvLocal();
+  const [pagasa, phivolcs] = await Promise.all([
+    ingestPagasaCapBulletins(),
+    ingestPhivolcsBulletins(),
+  ]);
+  logIngestResult("PAGASA CAP", pagasa);
+  console.log("");
+  logIngestResult("PHIVOLCS", phivolcs);
 }
 
 main().catch((error) => {

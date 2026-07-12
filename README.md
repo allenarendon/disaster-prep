@@ -62,13 +62,20 @@ Or run `scripts/clear-supabase-bulletins.sql` in the SQL Editor.
 
 If seeding fails with `invalid input syntax for type uuid`, your table was created with a UUID `id` column — run `supabase/migrations/002_fix_hazard_bulletins_text_id.sql` in the SQL Editor, then retry.
 
-### Live PAGASA ingestion (v1)
+### Live bulletin ingestion (v1)
 
 ```bash
 npm run ingest:bulletins
 ```
 
-Polls PAGASA’s public CAP Atom feed (`publicalert.pagasa.dost.gov.ph`), fetches each CAP XML bulletin, maps affected areas to province/region-level PSGC coverage, and upserts into `hazard_bulletins`. Expired/final/cancelled alerts are marked inactive. **PHIVOLCS is not ingested yet** — only PAGASA CAP in this release.
+Polls **PAGASA**’s public CAP Atom feed (`publicalert.pagasa.dost.gov.ph`) and **PHIVOLCS-LAVA** daily volcano bulletins (`wovodat.phivolcs.dost.gov.ph`), maps affected areas to province/region-level PSGC coverage, and upserts into `hazard_bulletins`. Expired, final, cancelled, or superseded alerts are marked inactive.
+
+| Source | Feed | Coverage |
+|--------|------|----------|
+| PAGASA | CAP Atom + XML | Province/region from CAP `areaDesc` |
+| PHIVOLCS | LAVA HTML bulletins | Province/region from volcano lookup (Mayon→Albay, Taal→Batangas/Cavite/Laguna, etc.) |
+
+If PHIVOLCS fetch fails locally with a TLS certificate error, set `PHIVOLCS_TLS_INSECURE=1` in `.env.local` (dev only).
 
 #### Vercel Cron (automatic production polling)
 
