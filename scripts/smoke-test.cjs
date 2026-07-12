@@ -35,14 +35,16 @@ async function main() {
   });
   assert.ok(noBulletin.guidance.every((g) => g.isFallback));
 
+  const { setLocalBulletinsForTests } = require("../dist-test/lib/data/local-store");
+  const {
+    activeTyphoonBulletin,
+    activeFloodBulletin,
+    additionHillsLocation,
+  } = require("../dist-test/lib/data/test-fixtures");
+  setLocalBulletinsForTests([activeTyphoonBulletin, activeFloodBulletin]);
+
   const multi = await generateGuidance({
-    location: {
-      barangayCode: "137401001",
-      barangayName: "Addition Hills",
-      cityMunicipality: "Mandaluyong",
-      province: "Metro Manila",
-      region: "NCR",
-    },
+    location: additionHillsLocation,
     language: "en",
     requestedAt: new Date().toISOString(),
   });

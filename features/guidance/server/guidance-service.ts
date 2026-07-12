@@ -7,7 +7,7 @@ import type {
 } from "@/features/shared/types";
 import { SUPPORTED_LANGUAGES } from "@/features/shared/types";
 import { getDataStore } from "@/lib/data";
-import { generateGuidanceWithAI } from "@/lib/ai/claude-client";
+import { generateBulletinGuidanceWithAI } from "@/lib/ai/claude-client";
 import { validateGuidanceContent } from "@/lib/ai/content-filter";
 import {
   generateMockGuidance,
@@ -46,16 +46,14 @@ async function buildGuidanceForBulletin(
     : never
 ): Promise<GuidanceResponse[]> {
   const language = normalizeLanguage(request.language);
-  const results: GuidanceResponse[] = [];
+  const aiByPhase = await generateBulletinGuidanceWithAI({
+    bulletin,
+    location: request.location,
+    language,
+  });
 
-  for (const phase of PHASES) {
-    const aiResult = await generateGuidanceWithAI({
-      bulletin,
-      location: request.location,
-      language,
-      phase,
-    });
-
+  return PHASES.map((phase) => {
+    const aiResult = aiByPhase[phase];
     let summary = aiResult.summary;
     let actionItems = aiResult.actionItems;
     let isFallback = aiResult.usedMock;
@@ -67,7 +65,7 @@ async function buildGuidanceForBulletin(
       isFallback = true;
     }
 
-    results.push({
+    return {
       bulletinId: bulletin.id,
       generatedAt: new Date().toISOString(),
       language,
@@ -78,10 +76,8 @@ async function buildGuidanceForBulletin(
       isFallback,
       hazardType: bulletin.hazardType,
       severity: bulletin.severity,
-    });
-  }
-
-  return results;
+    };
+  });
 }
 
 export async function generateGuidance(

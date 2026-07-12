@@ -7,5 +7,3 @@ Regenerate after updating the upstream source:
 ```bash
 npm run generate:locations
 ```
-
-This also re-syncs demo seed files (`data/seed/evac-centers.json`, `data/seed/bulletins.json`) to official barangay codes.

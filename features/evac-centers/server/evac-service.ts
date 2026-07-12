@@ -2,7 +2,6 @@ import type { EvacuationCenter, LocationRef } from "@/features/shared/types";
 import { getDataStore } from "@/lib/data";
 import {
   getEvacCentersForBarangayAsync,
-  hasVerifiedEvacCenter,
   MOCK_EVAC_CENTER_MESSAGE,
 } from "@/lib/data/evac-center-catalog";
 import { getLocationByCode } from "@/lib/data/location-resolver";
@@ -65,10 +64,11 @@ export async function searchEvacCenters(params: {
 
   if (params.barangayCode) {
     const locationHint = getLocationByCode(params.barangayCode);
-    const filtered = await getEvacCentersForBarangayAsync(
-      params.barangayCode,
-      locationHint
-    );
+    const dbCenters = await store.getEvacCentersByBarangay(params.barangayCode);
+    const filtered: RawEvacCenter[] =
+      dbCenters.length > 0
+        ? dbCenters
+        : await getEvacCentersForBarangayAsync(params.barangayCode, locationHint);
     const activeBulletins = params.barangayCode
       ? await store.getActiveBulletinsForLocation({
           barangayCode: params.barangayCode,
@@ -102,7 +102,7 @@ export async function searchEvacCenters(params: {
       centers: resolved,
       searchedRadiusKm: 0,
       expanded: false,
-      locationHasKnownCenter: hasVerifiedEvacCenter(params.barangayCode),
+      locationHasKnownCenter: dbCenters.length > 0,
       message: usesMockOnly ? MOCK_EVAC_CENTER_MESSAGE : undefined,
       resolvedLocation: locationHint,
     };
@@ -110,9 +110,12 @@ export async function searchEvacCenters(params: {
 
   const lat = params.lat!;
   const lng = params.lng!;
-  const locationHasKnownCenter = params.locationBarangayCode
-    ? hasVerifiedEvacCenter(params.locationBarangayCode)
-    : false;
+  const dbCentersForBarangay = params.locationBarangayCode
+    ? await store.getEvacCentersByBarangay(params.locationBarangayCode)
+    : [];
+  const locationHasKnownCenter = dbCentersForBarangay.some(
+    (center) => !center.isMock
+  );
   const requestedRadius = params.radiusKm;
 
   const radii = requestedRadius

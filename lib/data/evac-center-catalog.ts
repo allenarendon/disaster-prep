@@ -7,42 +7,23 @@ import {
   findNearestPublicSchoolForBarangay,
 } from "@/lib/data/nearest-public-school";
 import { getLocationByCode } from "@/lib/data/location-resolver";
-import { getSeedEvacCenters } from "@/lib/data/seed-loader";
 import { isPhilippinesCoordinate } from "@/lib/data/geo";
 import type { LocationRef } from "@/features/shared/types";
 
-let verifiedBarangayCodes: Set<string> | undefined;
-
-function getVerifiedBarangayCodes(): Set<string> {
-  if (!verifiedBarangayCodes) {
-    verifiedBarangayCodes = new Set(
-      getSeedEvacCenters().map((center) => center.location.barangayCode)
-    );
-  }
-  return verifiedBarangayCodes;
-}
-
-export function hasVerifiedEvacCenter(barangayCode: string): boolean {
-  return getVerifiedBarangayCodes().has(barangayCode);
+export function hasVerifiedEvacCenter(_barangayCode: string): boolean {
+  return false;
 }
 
 export function getVerifiedEvacCentersForBarangay(
-  barangayCode: string
+  _barangayCode: string
 ): RawEvacCenter[] {
-  return getSeedEvacCenters().filter(
-    (center) => center.location.barangayCode === barangayCode
-  );
+  return [];
 }
 
 export function getEvacCentersForBarangay(
   barangayCode: string,
   locationHint?: LocationRef
 ): RawEvacCenter[] {
-  const verified = getVerifiedEvacCentersForBarangay(barangayCode);
-  if (verified.length > 0) {
-    return verified;
-  }
-
   const location = locationHint ?? getLocationByCode(barangayCode);
   if (!location) {
     return [];
@@ -62,11 +43,6 @@ export async function getEvacCentersForBarangayAsync(
   barangayCode: string,
   locationHint?: LocationRef
 ): Promise<RawEvacCenter[]> {
-  const verified = getVerifiedEvacCentersForBarangay(barangayCode);
-  if (verified.length > 0) {
-    return verified;
-  }
-
   const location = locationHint ?? getLocationByCode(barangayCode);
   if (!location) {
     return [];

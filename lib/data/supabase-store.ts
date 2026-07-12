@@ -10,6 +10,7 @@ import type {
 import type { DataStore } from "@/lib/data/types";
 import { LocalDataStore } from "@/lib/data/local-store";
 import { getSeedOfflineBundle } from "@/lib/data/seed-loader";
+import { locationMatchesArea } from "@/lib/data/location-resolver";
 
 function getSupabaseClient(): SupabaseClient | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -58,17 +59,14 @@ class SupabaseDataStore implements DataStore {
       .select("*")
       .gt("valid_until", now);
 
-    if (error || !data) return [];
+    if (error || !data || data.length === 0) {
+      return [];
+    }
 
     const bulletins = data.map(mapBulletin);
     return bulletins
       .filter((b) =>
-        b.affectedAreas.some(
-          (area) =>
-            area.barangayCode === location.barangayCode ||
-            area.province === location.province ||
-            area.region === location.region
-        )
+        b.affectedAreas.some((area) => locationMatchesArea(location, area))
       )
       .sort((a, b) => b.severity - a.severity);
   }

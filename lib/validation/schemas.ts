@@ -214,3 +214,10 @@ export const aiGuidanceOutputSchema = z.object({
   summary: z.string(),
   actionItems: z.array(z.string()).min(1).max(8),
 });
+
+export const aiGuidanceByPhaseSchema = z.object({
+  NOW: aiGuidanceOutputSchema,
+  NEXT_24H: aiGuidanceOutputSchema,
+  DURING_IMPACT: aiGuidanceOutputSchema,
+  AFTERMATH: aiGuidanceOutputSchema,
+});

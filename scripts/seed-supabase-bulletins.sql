@@ -1,0 +1,7 @@
+-- Default seed file is intentionally empty.
+-- Real hazard bulletins must come from official PAGASA/PHIVOLCS/OCD sources.
+--
+-- To load real data, insert rows manually or extend scripts/seed-data/hazard-bulletins.json
+-- with authentic bulletin text, then run: npm run seed:bulletins
+--
+-- To remove old fictional starter rows, run: scripts/clear-supabase-bulletins.sql

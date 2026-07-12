@@ -6,27 +6,22 @@ import type {
   LocationRef,
   OfflineBundle,
 } from "@/features/shared/types";
-import {
-  getSeedBulletins,
-  getSeedEvacCenters,
-  getSeedOfflineBundle,
-} from "@/lib/data/seed-loader";
-import {
-  getEvacCentersForBarangayAsync,
-} from "@/lib/data/evac-center-catalog";
+import { getSeedOfflineBundle } from "@/lib/data/seed-loader";
+import { getEvacCentersForBarangayAsync } from "@/lib/data/evac-center-catalog";
 import { isMockEvacCenterId } from "@/lib/data/mock-evac-center";
 import { locationMatchesArea } from "@/lib/data/location-resolver";
 import type { DataStore } from "@/lib/data/types";
-
-type RawEvacCenter = Omit<EvacuationCenter, "reportCount">;
+import type { RawEvacCenter } from "@/lib/data/mock-evac-center";
 
 interface MutableState {
+  bulletins: HazardBulletin[];
   evacCenters: RawEvacCenter[];
   reports: CommunityReport[];
 }
 
 const state: MutableState = {
-  evacCenters: getSeedEvacCenters(),
+  bulletins: [],
+  evacCenters: [],
   reports: [],
 };
 
@@ -38,8 +33,7 @@ export class LocalDataStore implements DataStore {
   async getActiveBulletinsForLocation(
     location: LocationRef
   ): Promise<HazardBulletin[]> {
-    const bulletins = getSeedBulletins();
-    return bulletins
+    return state.bulletins
       .filter((b) => isActiveBulletin(b))
       .filter((b) =>
         b.affectedAreas.some((area) => locationMatchesArea(location, area))
@@ -50,10 +44,9 @@ export class LocalDataStore implements DataStore {
   async getEvacCentersByBarangay(
     barangayCode: string
   ): Promise<EvacuationCenter[]> {
-    return (await getEvacCentersForBarangayAsync(barangayCode)).map((c) => ({
-      ...c,
-      reportCount: 0,
-    }));
+    return state.evacCenters
+      .filter((center) => center.location.barangayCode === barangayCode)
+      .map((c) => ({ ...c, reportCount: 0 }));
   }
 
   async getAllEvacCenters(): Promise<EvacuationCenter[]> {
@@ -146,6 +139,15 @@ export class LocalDataStore implements DataStore {
 }
 
 export function resetLocalStoreForTests(): void {
-  state.evacCenters = [...getSeedEvacCenters()];
+  state.bulletins = [];
+  state.evacCenters = [];
   state.reports = [];
+}
+
+export function setLocalBulletinsForTests(bulletins: HazardBulletin[]): void {
+  state.bulletins = bulletins;
+}
+
+export function setLocalEvacCentersForTests(centers: RawEvacCenter[]): void {
+  state.evacCenters = centers;
 }

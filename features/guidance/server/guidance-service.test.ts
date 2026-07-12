@@ -1,7 +1,15 @@
 import { describe, expect, it, beforeEach } from "vitest";
 import { generateGuidance } from "@/features/guidance/server/guidance-service";
-import { resetLocalStoreForTests } from "@/lib/data/local-store";
+import {
+  resetLocalStoreForTests,
+  setLocalBulletinsForTests,
+} from "@/lib/data/local-store";
 import { resetDataStoreForTests } from "@/lib/data/supabase-store";
+import {
+  activeFloodBulletin,
+  activeTyphoonBulletin,
+  additionHillsLocation,
+} from "@/lib/data/test-fixtures";
 
 describe("generateGuidance", () => {
   beforeEach(() => {
@@ -28,14 +36,10 @@ describe("generateGuidance", () => {
   });
 
   it("returns guidance for active bulletin location", async () => {
+    setLocalBulletinsForTests([activeTyphoonBulletin]);
+
     const result = await generateGuidance({
-      location: {
-        barangayCode: "137401001",
-        barangayName: "Addition Hills",
-        cityMunicipality: "Mandaluyong",
-        province: "Metro Manila",
-        region: "NCR",
-      },
+      location: additionHillsLocation,
       language: "tl",
       requestedAt: new Date().toISOString(),
     });
@@ -48,14 +52,10 @@ describe("generateGuidance", () => {
   });
 
   it("does not merge conflicting bulletins into one response set per bulletin", async () => {
+    setLocalBulletinsForTests([activeTyphoonBulletin, activeFloodBulletin]);
+
     const result = await generateGuidance({
-      location: {
-        barangayCode: "137401001",
-        barangayName: "Addition Hills",
-        cityMunicipality: "Mandaluyong",
-        province: "Metro Manila",
-        region: "NCR",
-      },
+      location: additionHillsLocation,
       language: "en",
       requestedAt: new Date().toISOString(),
     });

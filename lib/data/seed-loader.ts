@@ -16,6 +16,14 @@ function psgcPath(filename: string): string {
   return path.join(process.cwd(), "data", "psgc", filename);
 }
 
+function loadOptionalSeedJson<T>(filename: string, fallback: T): T {
+  const filePath = seedPath(filename);
+  if (!fs.existsSync(filePath)) return fallback;
+  const raw = fs.readFileSync(filePath, "utf-8").trim();
+  if (!raw) return fallback;
+  return JSON.parse(raw) as T;
+}
+
 export function loadSeedJson<T>(filename: string): T {
   const raw = fs.readFileSync(seedPath(filename), "utf-8");
   return JSON.parse(raw) as T;
@@ -27,11 +35,11 @@ export function getSeedLocations(): LocationRef[] {
 }
 
 export function getSeedBulletins(): HazardBulletin[] {
-  return loadSeedJson<HazardBulletin[]>("bulletins.json");
+  return loadOptionalSeedJson<HazardBulletin[]>("bulletins.json", []);
 }
 
 export function getSeedEvacCenters(): RawEvacCenter[] {
-  return loadSeedJson<RawEvacCenter[]>("evac-centers.json");
+  return loadOptionalSeedJson<RawEvacCenter[]>("evac-centers.json", []);
 }
 
 export function getSeedOfflineBundle(): OfflineBundle {

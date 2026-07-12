@@ -31,11 +31,7 @@ describe("mock evacuation centers", () => {
     expect(mock.name).toContain("(Mock)");
   });
 
-  it("returns verified centers when available and mock otherwise", () => {
-    const verified = getEvacCentersForBarangay("137401001");
-    expect(verified.some((center) => center.isMock)).toBe(false);
-    expect(verified.length).toBeGreaterThan(0);
-
+  it("returns mock centers for uncovered barangays", () => {
     const mockOnly = getEvacCentersForBarangay("137401002");
     expect(mockOnly).toHaveLength(1);
     expect(mockOnly[0]?.isMock).toBe(true);

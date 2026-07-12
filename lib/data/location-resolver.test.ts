@@ -24,18 +24,10 @@ describe("location resolver", () => {
     expect(matches.length).toBeGreaterThan(0);
   });
 
-  it("prioritizes barangays with known evacuation centers", () => {
+  it("marks barangays without verified LGU data as uncovered", () => {
     const matches = searchLocationsWithCoverage("Mandaluyong", 25);
     expect(matches.length).toBeGreaterThan(0);
-
-    const firstCoveredIndex = matches.findIndex((item) => item.knownEvacCenter);
-    const firstUncoveredIndex = matches.findIndex(
-      (item) => !item.knownEvacCenter
-    );
-
-    expect(firstCoveredIndex).toBeGreaterThanOrEqual(0);
-    expect(firstUncoveredIndex).toBeGreaterThanOrEqual(0);
-    expect(firstCoveredIndex).toBeLessThan(firstUncoveredIndex);
+    expect(matches.every((item) => !item.knownEvacCenter)).toBe(true);
   });
 
   it("returns up to 20 matches when limit is requested", () => {

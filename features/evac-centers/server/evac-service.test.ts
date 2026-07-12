@@ -1,12 +1,17 @@
 import { describe, expect, it } from "vitest";
 import { searchEvacCenters } from "@/features/evac-centers/server/evac-service";
 import { resetDataStoreForTests } from "@/lib/data/supabase-store";
-import { resetLocalStoreForTests } from "@/lib/data/local-store";
+import {
+  resetLocalStoreForTests,
+  setLocalEvacCentersForTests,
+} from "@/lib/data/local-store";
+import { additionHillsEvacCenter } from "@/lib/data/test-fixtures";
 
 describe("searchEvacCenters", () => {
   it("marks locations with known in-barangay centers", async () => {
     resetDataStoreForTests();
     resetLocalStoreForTests();
+    setLocalEvacCentersForTests([additionHillsEvacCenter]);
 
     const result = await searchEvacCenters({
       lat: 14.5946,

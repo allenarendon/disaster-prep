@@ -6,7 +6,9 @@ const locationsPath = path.join(projectRoot, "data", "psgc", "locations.json");
 const evacCentersPath = path.join(projectRoot, "data", "seed", "evac-centers.json");
 
 const locations = JSON.parse(fs.readFileSync(locationsPath, "utf8"));
-const centers = JSON.parse(fs.readFileSync(evacCentersPath, "utf8"));
+const centers = fs.existsSync(evacCentersPath)
+  ? JSON.parse(fs.readFileSync(evacCentersPath, "utf8"))
+  : [];
 
 const coveredCodes = new Set(centers.map((center) => center.location.barangayCode));
 const totalBarangays = locations.length;
@@ -28,7 +30,7 @@ for (const location of locations) {
 }
 
 console.log(`Total PSGC barangays: ${totalBarangays}`);
-console.log(`Verified barangays (seed/LGU data): ${coveredBarangays}`);
+console.log(`Verified barangays (Supabase/LGU data): ${coveredBarangays}`);
 console.log(`Mock-only barangays (runtime placeholder): ${uncoveredBarangays}`);
 console.log(`Verified coverage: ${coveragePct}%`);
 console.log(`Effective coverage with mocks: 100.000%`);

@@ -26,7 +26,8 @@ Open [http://localhost:3000](http://localhost:3000). The app runs in **local/moc
 | `npm run check:offline-bundle-size` | Validate offline bundle stays under 2MB |
 | `npm run coverage:evac-centers` | Report barangay evacuation-center coverage |
 | `npm run test` | Smoke tests (edge-case server logic) |
-| `npm run generate:locations` | Regenerate PSGC barangay data (~42k locations) |
+| `npm run clear:bulletins` | Remove old fictional starter bulletins from Supabase |
+| `npm run ingest:bulletins` | Poll PAGASA CAP feed and upsert live bulletins into Supabase |
 
 ## Environment variables
 
@@ -36,8 +37,90 @@ Copy `.env.example` to `.env.local`:
 - `NEXT_PUBLIC_SUPABASE_URL` / `SUPABASE_SERVICE_KEY` — optional; enables Supabase data store
 - `LGU_ADMIN_API_KEY` — required for `PATCH /api/evac-centers/:id/status`
 - `NEXT_PUBLIC_APP_URL` — base URL for share links
+- `CRON_SECRET` — secures `GET /api/cron/ingest-bulletins` (required for Vercel Cron; see below)
+- `INGEST_CRON_SECRET` — optional alias for manual `POST` tests (can match `CRON_SECRET`)
 
-Without Supabase or Anthropic keys, the app uses seeded JSON data and mock AI responses.
+Without Supabase or Anthropic keys, guidance shows “no active advisory” and mock AI responses.
+
+### Seed Supabase bulletins (AI guidance)
+
+After running `supabase/migrations/001_initial.sql` in your Supabase SQL Editor:
+
+```bash
+npm run seed:bulletins
+```
+
+Requires `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_KEY` in `.env.local`. Add **real** bulletin rows to `scripts/seed-data/hazard-bulletins.json` (official PAGASA/PHIVOLCS text only), then run the command. The default file is **empty** — the app will show “no active advisory” until real bulletins are loaded.
+
+**Remove fictional starter data** (if you previously seeded the old Typhoon Carina examples):
+
+```bash
+npm run clear:bulletins
+```
+
+Or run `scripts/clear-supabase-bulletins.sql` in the SQL Editor.
+
+If seeding fails with `invalid input syntax for type uuid`, your table was created with a UUID `id` column — run `supabase/migrations/002_fix_hazard_bulletins_text_id.sql` in the SQL Editor, then retry.
+
+### Live PAGASA ingestion (v1)
+
+```bash
+npm run ingest:bulletins
+```
+
+Polls PAGASA’s public CAP Atom feed (`publicalert.pagasa.dost.gov.ph`), fetches each CAP XML bulletin, maps affected areas to province/region-level PSGC coverage, and upserts into `hazard_bulletins`. Expired/final/cancelled alerts are marked inactive. **PHIVOLCS is not ingested yet** — only PAGASA CAP in this release.
+
+#### Vercel Cron (automatic production polling)
+
+`vercel.json` schedules ingestion every **30 minutes**:
+
+```json
+{ "path": "/api/cron/ingest-bulletins", "schedule": "*/30 * * * *" }
+```
+
+Vercel invokes this route as **GET** and, when `CRON_SECRET` is set, sends:
+
+`Authorization: Bearer <CRON_SECRET>`
+
+**One-time setup**
+
+1. Generate a secret (32+ random characters, no newlines):
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+2. In **Vercel → Project → Settings → Environment Variables**, add for **Production**:
+
+| Variable | Value |
+|----------|--------|
+| `CRON_SECRET` | your generated secret |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `SUPABASE_SERVICE_KEY` | Supabase service role key |
+
+Optional: set `INGEST_CRON_SECRET` to the same value if you also want to test with `POST`.
+
+3. **Redeploy** production (push to `main` or redeploy from Vercel dashboard) so `vercel.json` cron is registered.
+
+4. Verify in **Vercel → Project → Cron Jobs** — you should see `/api/cron/ingest-bulletins` on the `*/30 * * * *` schedule.
+
+5. After the first run, check Supabase `hazard_bulletins` for rows with ids like `pagasa-cap-...`.
+
+**Manual test** (local or production):
+
+```bash
+curl -H "Authorization: Bearer YOUR_CRON_SECRET" \
+  https://disaster-prep-ruddy.vercel.app/api/cron/ingest-bulletins
+```
+
+Use `POST` instead of `GET` if you prefer; both are supported.
+
+**Notes**
+
+- Cron jobs run on **production** deployments only (not preview).
+- Hobby plans include limited cron invocations; Pro allows more frequent schedules.
+- If cron returns 401, confirm `CRON_SECRET` is set in Production env and redeployed.
+- Local dev: add `CRON_SECRET` to `.env.local` (see `.env.example`).
 
 Location search uses the full Philippine barangay list (~42,000 entries) from PSA PSGC data in [`data/psgc/locations.json`](data/psgc/locations.json). Regenerate with `npm run generate:locations` (see [`data/psgc/README.md`](data/psgc/README.md)).
 
@@ -67,6 +150,7 @@ This creates `.vercel/project.json` (gitignored) with `orgId` and `projectId`.
 | `ANTHROPIC_API_KEY` | Optional | Enables real Claude guidance |
 | `NEXT_PUBLIC_SUPABASE_URL` | Optional | Only if using Supabase |
 | `SUPABASE_SERVICE_KEY` | Optional | Server-only; never expose to client |
+| `CRON_SECRET` | Recommended | Secures PAGASA ingest cron (`/api/cron/ingest-bulletins`) |
 
 4. Create a Vercel token: Account Settings → Tokens.
 

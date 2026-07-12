@@ -13,7 +13,10 @@
     "generate:mock-evac-centers": "node scripts/generate-mock-evac-centers.cjs",
     "test": "tsc -p tsconfig.smoke.json && node scripts/smoke-test.cjs",
     "test:vitest": "vitest run",
-    "generate:locations": "node scripts/generate-locations.cjs"
+    "generate:locations": "node scripts/generate-locations.cjs",
+    "seed:bulletins": "node scripts/seed-supabase-bulletins.mjs",
+    "clear:bulletins": "node scripts/clear-supabase-bulletins.mjs",
+    "ingest:bulletins": "npx tsx scripts/ingest-bulletins.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
